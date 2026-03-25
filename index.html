@@ -79,8 +79,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#1a1a1a;mi
 .rmeta{font-size:.68rem;color:#aaa;margin-top:2px;}
 .rmeta strong{color:#3d8c5e;}
 .sort-sel{padding:.3rem .6rem;border:1.5px solid #e8e8e8;border-radius:7px;font-size:.7rem;color:#555;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;outline:none;cursor:pointer;}
-.twrap{background:#fff;border-radius:12px;border:1.5px solid #ebebeb;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.04);}
-table{width:100%;border-collapse:collapse;font-size:.78rem;}
+.twrap{background:#fff;border-radius:12px;border:1.5px solid #ebebeb;overflow-x:auto;-webkit-overflow-scrolling:touch;box-shadow:0 2px 16px rgba(0,0,0,.04);}
+table{width:100%;min-width:520px;border-collapse:collapse;font-size:.78rem;}
 thead{background:#f8faf8;border-bottom:1.5px solid #e8e8e8;}
 thead th{padding:.6rem .8rem;text-align:left;font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#999;white-space:nowrap;}
 tbody tr{border-bottom:1px solid #f0f0f0;transition:background .12s;}
@@ -119,7 +119,67 @@ tbody td{padding:.58rem .8rem;vertical-align:middle;}
 .cssub{font-size:.82rem;color:#aaa;font-style:italic;}
 footer{background:#f8f8f8;border-top:1px solid #e8e8e8;text-align:center;padding:1.2rem;font-size:.68rem;color:#bbb;}
 footer strong{color:#3d8c5e;}
-@media(max-width:640px){.hero-inner{grid-template-columns:1fr;}.plant-wrap{display:none;}.search-grid{grid-template-columns:1fr;}.hm{display:none;}}
+@media(max-width:640px){
+  /* Hero */
+  .hero{padding:1.75rem 1rem 1.25rem;}
+  .hero-inner{grid-template-columns:1fr;}
+  .plant-wrap{display:none;}
+  .hero h1{font-size:1.55rem;}
+  .hero-stats{gap:1rem;}
+  /* Search */
+  .search-sec{padding:1rem .75rem 0;}
+  .search-grid{grid-template-columns:1fr;}
+  /* Filters */
+  .filter-row{gap:.3rem;}
+  .flabel{width:100%;margin-bottom:.1rem;}
+  .sbtn-wrap{margin-top:.4rem;}
+  .sbtn{width:100%;justify-content:center;}
+  /* Table header */
+  .table-hdr{flex-direction:column;align-items:flex-start;gap:.5rem;}
+  .table-hdr-right{width:100%;justify-content:space-between;}
+  .tier-filter-inline{flex-wrap:wrap;}
+  .sort-sel{font-size:.68rem;}
+  /* Table */
+  .table-sec{padding:0 .75rem;}
+  .twrap{border-radius:10px;}
+  thead th{padding:.5rem .6rem;font-size:.58rem;}
+  tbody td{padding:.5rem .6rem;}
+  .pname{font-size:.76rem;}
+  .uabbr{font-size:.63rem;}
+  .pgval{font-size:.7rem;}
+  .pgbar{width:40px;}
+  /* Popular tags */
+  .popular-sec,.new-sec{padding:0 .75rem .75rem;}
+  .pop-grid,.new-grid{gap:.3rem;}
+  /* Nav */
+  .nav-tabs{padding:0 .75rem;}
+  .nav-logo{margin-right:.75rem;font-size:.9rem;}
+  .tab-btn{padding:.85rem .7rem;font-size:.72rem;}
+  /* Hide mobile cols */
+  .hm{display:none;}
+  /* Kerja page */
+  .kerja-hero{padding:1.75rem 1rem 1.5rem;}
+  .kerja-search-wrap{padding:.75rem 1rem;}
+  .kerja-search-inner{flex-direction:column;}
+  .kerja-sbtn{width:100%;justify-content:center;}
+  .kerja-filter-wrap{padding:.5rem 1rem;}
+  .kerja-results-wrap{padding:1rem .75rem;}
+  .kgrid{grid-template-columns:1fr;}
+  /* Ranking page */
+  .rank-hero{padding:1.75rem 1rem 1.25rem;}
+  .rank-legend-wrap{padding:1rem .75rem;}
+  .rank-legend-inner{grid-template-columns:1fr;}
+  .rank-search-wrap{padding:.75rem 1rem;}
+  .rank-tables-wrap{padding:1rem .75rem 1.5rem;}
+  .rank-tables-inner{grid-template-columns:1fr;}
+  .rtable-wrap{max-height:280px;}
+}
+@media(max-width:400px){
+  .hero h1{font-size:1.35rem;}
+  .tab-btn{padding:.8rem .55rem;font-size:.68rem;}
+  .tchip{padding:.2rem .45rem;font-size:.65rem;}
+  .chip{padding:.25rem .6rem;font-size:.68rem;}
+}
 
 
 /* AUTOCOMPLETE */
@@ -289,7 +349,7 @@ footer strong{color:#3d8c5e;}
 .rfound-badge.not-b{background:#f0f0f0;color:#999;}
 .rresult-notfound{background:#fafafa;border:1.5px dashed #ddd;border-radius:10px;padding:.7rem 1rem;font-size:.8rem;color:#999;text-align:center;}
 /* TABLES */
-.rank-tables-wrap{padding:1.25rem 1.5rem 2rem;}
+.rank-tables-wrap{padding:1.25rem 1rem 2rem;}
 .rank-tables-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
 .rank-table-col{}
 .rtable-header{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;border-radius:10px 10px 0 0;}
