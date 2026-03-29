@@ -278,11 +278,48 @@ footer strong{color:#3d8c5e;}
 .kprofile-industries{display:flex;gap:.35rem;flex-wrap:wrap;}
 .kind-pill{padding:.22rem .6rem;border-radius:20px;font-size:.65rem;font-weight:600;background:#e8f5ee;color:#2e7048;border:1px solid #b8dfc7;}
 /* COMPANY CARDS */
-.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem;}
-.kcard{background:#fff;border:1.5px solid #ebebeb;border-radius:12px;padding:1rem;transition:border-color .15s,box-shadow .15s;cursor:default;}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.65rem;}
+.kcard{background:#fff;border:1.5px solid #ebebeb;border-radius:12px;overflow:hidden;transition:border-color .15s,box-shadow .15s;cursor:pointer;}
 .kcard:hover{border-color:#3d8c5e;box-shadow:0 4px 16px rgba(61,140,94,.08);}
-.kcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem;}
-.kcard-name{font-size:.85rem;font-weight:700;color:#111;line-height:1.3;}
+.kcard.expanded{border-color:#3d8c5e;box-shadow:0 4px 20px rgba(61,140,94,.12);}
+.kcard-summary{padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;}
+.kcard-left{display:flex;align-items:center;gap:.65rem;min-width:0;}
+.kcard-name{font-size:.83rem;font-weight:700;color:#111;line-height:1.3;}
+.kcard-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+.kcard-chevron{font-size:.7rem;color:#bbb;transition:transform .25s;flex-shrink:0;}
+.kcard.expanded .kcard-chevron{transform:rotate(180deg);}
+.kcard-detail{max-height:0;overflow:hidden;transition:max-height .3s ease;border-top:0 solid #f0f0f0;}
+.kcard.expanded .kcard-detail{max-height:220px;border-top-width:1px;}
+.kcard-univs{padding:.65rem 1rem .75rem;}
+.kcard-univs-title{font-size:.58rem;font-weight:700;color:#aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem;}
+.kuniv-row{display:flex;align-items:center;gap:.45rem;padding:.28rem 0;border-bottom:1px solid #f8f8f8;}
+.kuniv-row:last-child{border-bottom:none;}
+.kuniv-num{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;flex-shrink:0;}
+.kuniv-num.n1{background:#fef3c7;color:#92400e;}
+.kuniv-num.n2{background:#e0f2fe;color:#075985;}
+.kuniv-num.n3{background:#f0fdf4;color:#166534;}
+.kuniv-num.nx{background:#f4f4f4;color:#888;}
+.kuniv-name{font-size:.73rem;color:#333;font-weight:500;}
+.kuniv-name.highlight{color:#2e7048;font-weight:700;}
+/* INDUSTRY AGGREGATION PANEL */
+.kind-agg-panel{display:none;margin-bottom:.9rem;animation:slideDown .25s ease;}
+.kind-agg-panel.show{display:block;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.kagg-inner{background:linear-gradient(135deg,#f8fdf9,#f0f9f4);border:1.5px solid #c8e8d5;border-radius:12px;padding:.85rem 1rem;}
+.kagg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
+.kagg-title{font-size:.68rem;font-weight:700;color:#2e7048;display:flex;align-items:center;gap:.35rem;}
+.kagg-ind-badge{font-size:.62rem;font-weight:700;padding:.18rem .55rem;border-radius:6px;}
+.kagg-list{display:flex;flex-direction:column;gap:.3rem;}
+.kagg-row{display:flex;align-items:center;gap:.6rem;}
+.kagg-rank{font-size:.65rem;font-weight:700;color:#aaa;width:16px;text-align:center;flex-shrink:0;}
+.kagg-rank.r1{color:#d4a96a;}
+.kagg-rank.r2{color:#7a9fd4;}
+.kagg-rank.r3{color:#3d8c5e;}
+.kagg-uname{font-size:.76rem;font-weight:600;color:#1a1a1a;flex:1;}
+.kagg-bar-wrap{width:100px;flex-shrink:0;}
+.kagg-bar{height:5px;background:#e0f0e8;border-radius:3px;overflow:hidden;}
+.kagg-fill{height:100%;background:#3d8c5e;border-radius:3px;}
+.kagg-count{font-size:.65rem;color:#888;min-width:28px;text-align:right;}:1.3;}
 .kcard-rank{font-size:.6rem;font-weight:700;color:#fff;background:#3d8c5e;padding:.15rem .4rem;border-radius:6px;white-space:nowrap;flex-shrink:0;margin-left:.4rem;}
 .kcard-rank.rank1{background:#d4a96a;}
 .kcard-rank.rank2{background:#6a8fd4;}
@@ -698,6 +735,16 @@ footer strong{color:#3d8c5e;}
             </div>
           </div>
           <div class="kprofile-industries" id="kprofile-industries"></div>
+        </div>
+      </div>
+
+<!-- INDUSTRY AGGREGATION PANEL -->
+      <div class="kind-agg-panel" id="kind-agg-panel">
+        <div class="kagg-inner">
+          <div class="kagg-header">
+            <div class="kagg-title">🏆 Top 5 Universitas Alumni Terbanyak di Sini <span class="kagg-ind-badge" id="kagg-ind-badge"></span></div>
+          </div>
+          <div class="kagg-list" id="kagg-list"></div>
         </div>
       </div>
 
@@ -1147,19 +1194,6 @@ industries.forEach(ind => {
 // Kerja state
 let kActiveIndustry = '', kActiveUniv = '', kFiltered = [...EMP_COMPANIES];
 
-function setKerjaIndustry(ind, btn) {
-  kActiveIndustry = ind;
-  document.querySelectorAll('.kchip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  kerjaRender();
-}
-
-function kerjaSearch() {
-  const val = document.getElementById('kerja-inp-univ').value.trim();
-  kActiveUniv = val;
-  kerjaRender();
-}
-
 function kerjaRender() {
   const grid = document.getElementById('kgrid');
   const empty = document.getElementById('kerja-empty');
@@ -1168,24 +1202,24 @@ function kerjaRender() {
   const rCount = document.getElementById('kresult-count');
 
   let results = EMP_COMPANIES.filter(c => {
-    if(kActiveIndustry && c.industry !== kActiveIndustry) return false;
-    if(kActiveUniv) {
+    if (kActiveIndustry && c.industry !== kActiveIndustry) return false;
+    if (kActiveUniv) {
       const q = kActiveUniv.toLowerCase();
       return c.univs.some(u => u.toLowerCase().includes(q));
     }
     return true;
   });
 
-  if(kActiveUniv) {
-    if(results.length > 0) {
+  if (kActiveUniv) {
+    if (results.length > 0) {
       profile.style.display = 'block';
       const indCountMap = {};
-      results.forEach(c => { indCountMap[c.industry] = (indCountMap[c.industry]||0)+1; });
-      const sortedInds = Object.entries(indCountMap).sort((a,b)=>b[1]-a[1]);
-      const topCompanies = results.slice(0,3).map(c=>c.company).join(', ');
-      const s0 = sortedInds[0]||['—',0], s1 = sortedInds[1];
-      const summaryDesc = `Alumni dari kampus ini banyak terserap di sektor <strong>${s0[0]}</strong>${s1?' dan <strong>'+s1[0]+'</strong>':''}, dengan ${results.length} perusahaan besar yang tercatat merekrut dari sini. Beberapa di antaranya: ${topCompanies}.`;
-      const indTagsHtml = sortedInds.map(([ind,n]) => {
+      results.forEach(c => { indCountMap[c.industry] = (indCountMap[c.industry] || 0) + 1; });
+      const sortedInds = Object.entries(indCountMap).sort((a,b) => b[1]-a[1]);
+      const topCompanies = results.slice(0,3).map(c => c.company).join(', ');
+      const s0 = sortedInds[0] || ['—',0], s1 = sortedInds[1];
+      const summaryDesc = `Alumni dari kampus ini banyak terserap di sektor <strong>${s0[0]}</strong>${s1 ? ' dan <strong>'+s1[0]+'</strong>' : ''}, dengan ${results.length} perusahaan besar yang tercatat merekrut dari sini. Beberapa di antaranya: ${topCompanies}.`;
+      const indTagsHtml = sortedInds.map(([ind, n]) => {
         const col = IND_COLORS[ind] || ['#f0f0f0','#666'];
         return `<span class="ksummary-tag" style="background:${col[0]};color:${col[1]}">${ind} <strong>(${n})</strong></span>`;
       }).join('');
@@ -1214,15 +1248,83 @@ function kerjaRender() {
 
   rCount.textContent = results.length + ' perusahaan';
 
-  grid.innerHTML = results.map(c => {
-    const col = IND_COLORS[c.industry] || ['#f0f0f0','#666'];
-    return `<div class="kcard">
-      <div class="kcard-name">${c.company}</div>
-      <span class="kind-tag" style="background:${col[0]};color:${col[1]}">${c.industry}</span>
+  grid.innerHTML = results.map((comp, idx) => {
+    const col = IND_COLORS[comp.industry] || ['#f0f0f0','#666'];
+    const univsHtml = comp.univs.map((u, i) => {
+      const isHL = kActiveUniv && u.toLowerCase().includes(kActiveUniv.toLowerCase());
+      const nc = i===0?'n1':i===1?'n2':i===2?'n3':'nx';
+      return `<div class="kuniv-row">
+        <span class="kuniv-num ${nc}">${i+1}</span>
+        <span class="kuniv-name${isHL?' highlight':''}">${u}</span>
+      </div>`;
+    }).join('');
+    return `<div class="kcard" id="kcard-${idx}" onclick="toggleKCard(${idx})">
+      <div class="kcard-summary">
+        <div class="kcard-left">
+          <div>
+            <div class="kcard-name">${comp.company}</div>
+            <span class="kind-tag" style="background:${col[0]};color:${col[1]};display:inline-block;margin-top:.3rem">${comp.industry}</span>
+          </div>
+        </div>
+        <span class="kcard-chevron">▼</span>
+      </div>
+      <div class="kcard-detail">
+        <div class="kcard-univs">
+          <div class="kcard-univs-title">Top 5 Universitas Alumni Terbanyak di Sini</div>
+          ${univsHtml}
+        </div>
+      </div>
     </div>`;
   }).join('');
 }
 
+
+function setKerjaIndustry(ind, btn) {
+  kActiveIndustry = ind;
+  document.querySelectorAll('.kchip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderKaggPanel(ind);
+  document.getElementById('kind-agg-panel').classList.add('show');
+  kerjaRender();
+}
+
+function renderKaggPanel(ind) {
+  const src = ind ? EMP_COMPANIES.filter(c => c.industry === ind) : EMP_COMPANIES;
+  const univSet = {};
+  src.forEach(comp => {
+    comp.univs.forEach(u => {
+      if (!univSet[u]) univSet[u] = new Set();
+      univSet[u].add(comp.company);
+    });
+  });
+  const sorted = Object.entries(univSet)
+    .map(([u, s]) => [u, s.size])
+    .sort((a,b) => b[1]-a[1])
+    .slice(0, 5);
+  const maxN = sorted[0]?.[1] || 1;
+  const col = ind ? (IND_COLORS[ind] || ['#f0f0f0','#666']) : ['#e8f5ee','#2e7048'];
+  document.getElementById('kagg-ind-badge').textContent = ind || 'Semua Industri';
+  document.getElementById('kagg-ind-badge').style.cssText = `background:${col[0]};color:${col[1]}`;
+  const rc = i => i===0?'r1':i===1?'r2':i===2?'r3':'';
+  document.getElementById('kagg-list').innerHTML = sorted.map(([u, n], i) =>
+    `<div class="kagg-row">
+      <span class="kagg-rank ${rc(i)}">${i+1}</span>
+      <span class="kagg-uname">${u}</span>
+      <div class="kagg-bar-wrap"><div class="kagg-bar"><div class="kagg-fill" style="width:${(n/maxN*100).toFixed(0)}%"></div></div></div>
+      <span class="kagg-count">${n} perusahaan</span>
+    </div>`
+  ).join('');
+}
+// Accordion toggle — expand one, collapse others
+function toggleKCard(idx) {
+  const clicked = document.getElementById('kcard-' + idx);
+  if (!clicked) return;
+  const isExpanded = clicked.classList.contains('expanded');
+  // Collapse all
+  document.querySelectorAll('.kcard').forEach(card => card.classList.remove('expanded'));
+  // Expand clicked if it wasn't already open
+  if (!isExpanded) clicked.classList.add('expanded');
+}
 
 // Kerja autocomplete
 let kacIdx = -1;
@@ -1277,6 +1379,8 @@ document.addEventListener('click', e => {
 
 // Init kerja
 kerjaRender();
+renderKaggPanel('');
+document.getElementById('kind-agg-panel').classList.add('show');
 
 
 // ── RANKING DATA ──
