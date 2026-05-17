@@ -246,7 +246,13 @@ footer strong{color:#3d8c5e;}
 .kerja-stats-row{display:flex;gap:2rem;position:relative;z-index:2;}
 .kstat .kstat-num{font-size:1.5rem;font-weight:700;color:#6dda9e;display:block;line-height:1;}
 .kstat .kstat-lbl{font-size:.6rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:.15rem;display:block;}
-/* KERJA SEARCH */
+/* KERJA AGG BAR (above search) */
+.kerja-agg-bar{background:#f0f9f4;border-bottom:1px solid #c8e8d5;}
+.kerja-agg-inner{max-width:960px;margin:0 auto;padding:.85rem 1.5rem;}
+.kerja-agg-bar .kind-agg-panel{display:none;margin-bottom:0;animation:slideDown .25s ease;}
+.kerja-agg-bar .kind-agg-panel.show{display:block;}
+/* Stats now inside hero-inner — inherit max-width alignment */
+.kerja-stats-row{display:flex;gap:2rem;position:relative;z-index:2;margin-top:1.25rem;}
 .kerja-search-wrap{background:#f8faf8;border-bottom:1px solid #e8e8e8;padding:1rem 1.5rem;}
 .kerja-search-inner{max-width:960px;margin:0 auto;display:flex;gap:.75rem;align-items:center;}
 .ksearch-box{position:relative;flex:1;}
@@ -315,7 +321,7 @@ footer strong{color:#3d8c5e;}
 .kagg-rank.r1{color:#d4a96a;}
 .kagg-rank.r2{color:#7a9fd4;}
 .kagg-rank.r3{color:#3d8c5e;}
-.kagg-uname{font-size:.76rem;font-weight:600;color:#1a1a1a;flex:1;}
+.kagg-uname{font-size:.92rem;font-weight:700;color:#1a1a1a;flex:1;}
 .kagg-bar-wrap{width:100px;flex-shrink:0;}
 .kagg-bar{height:5px;background:#e0f0e8;border-radius:3px;overflow:hidden;}
 .kagg-fill{height:100%;background:#3d8c5e;border-radius:3px;}
@@ -606,8 +612,8 @@ footer strong{color:#3d8c5e;}
         <div class="hf-icon">💼</div>
         <div class="hf-body">
           <div class="hf-title">Peluang Kerja Alumni</div>
-          <div class="hf-desc">72 perusahaan besar di Indonesia dan universitas mana yang alumninya paling banyak direkrut. Data dari LinkedIn.</div>
-          <div class="hf-tags"><span>72 Perusahaan</span><span>12 Sektor</span><span>LinkedIn</span></div>
+          <div class="hf-desc">73 perusahaan besar di Indonesia dan universitas mana yang alumninya paling banyak direkrut. Data dari LinkedIn.</div>
+          <div class="hf-tags"><span>73 Perusahaan</span><span>12 Sektor</span><span>LinkedIn</span></div>
         </div>
         <div class="hf-arrow">→</div>
       </div>
@@ -871,16 +877,29 @@ footer strong{color:#3d8c5e;}
       <div class="kerja-eyebrow">Alumni & Industri</div>
       <h2 class="kerja-title">Peluang Kerja<br><em>Alumni PTN</em></h2>
       <p class="kerja-sub">Temukan perusahaan top yang banyak merekrut alumni dari universitas pilihanmu.</p>
-      <div class="kerja-source-note">📊 Data dari <strong>72 perusahaan besar di Indonesia</strong> · Sumber: 5 universitas penyuplai tenaga kerja terbanyak di LinkedIn per perusahaan</div>
-    </div>
-    <div class="kerja-stats-row">
-      <div class="kstat"><span class="kstat-num">73</span><span class="kstat-lbl">Perusahaan</span></div>
-      <div class="kstat"><span class="kstat-num">12</span><span class="kstat-lbl">Sektor Industri</span></div>
-      <div class="kstat"><span class="kstat-num">55</span><span class="kstat-lbl">PTN Terhubung</span></div>
+      <div class="kerja-source-note">📊 Data dari <strong>73 perusahaan besar di Indonesia</strong> · Sumber: 5 universitas penyuplai tenaga kerja terbanyak di LinkedIn per perusahaan</div>
+      <div class="kerja-stats-row">
+        <div class="kstat"><span class="kstat-num">73</span><span class="kstat-lbl">Perusahaan Besar</span></div>
+        <div class="kstat"><span class="kstat-num">12</span><span class="kstat-lbl">Sektor Industri</span></div>
+        <div class="kstat"><span class="kstat-num">55</span><span class="kstat-lbl">PTN Terhubung</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- SEARCH BY UNIV -->
+<div class="kerja-agg-bar">
+    <div class="kerja-agg-inner">
+      <div class="kind-agg-panel" id="kind-agg-panel">
+        <div class="kagg-inner">
+          <div class="kagg-header">
+            <div class="kagg-title">🏆 Top 5 Universitas Alumni Terbanyak di Sini <span class="kagg-ind-badge" id="kagg-ind-badge"></span></div>
+          </div>
+          <div class="kagg-list" id="kagg-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- SEARCH BY UNIV -->
   <div class="kerja-search-wrap">
     <div class="kerja-search-inner">
       <div class="ksearch-box ac-wrap" id="kerja-univ-wrap">
@@ -920,16 +939,6 @@ footer strong{color:#3d8c5e;}
             </div>
           </div>
           <div class="kprofile-industries" id="kprofile-industries"></div>
-        </div>
-      </div>
-
-<!-- INDUSTRY AGGREGATION PANEL -->
-      <div class="kind-agg-panel" id="kind-agg-panel">
-        <div class="kagg-inner">
-          <div class="kagg-header">
-            <div class="kagg-title">🏆 Top 5 Universitas Alumni Terbanyak di Sini <span class="kagg-ind-badge" id="kagg-ind-badge"></span></div>
-          </div>
-          <div class="kagg-list" id="kagg-list"></div>
         </div>
       </div>
 
