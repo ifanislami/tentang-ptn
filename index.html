@@ -875,9 +875,9 @@ footer strong{color:#3d8c5e;}
   <div class="kerja-hero">
     <div class="kerja-hero-inner">
       <div class="kerja-eyebrow">Alumni & Industri</div>
-      <h2 class="kerja-title">Peluang Kerja<br><em>Alumni PTN</em></h2>
-      <p class="kerja-sub">Temukan perusahaan top yang banyak merekrut alumni dari universitas pilihanmu.</p>
-      <div class="kerja-source-note">📊 Data dari <strong>73 perusahaan besar di Indonesia</strong> · Sumber: 5 universitas penyuplai tenaga kerja terbanyak di LinkedIn per perusahaan</div>
+      <h2 class="kerja-title">Peluang Kerja<br><em>Universitas Impian Kamu</em></h2>
+      <p class="kerja-sub">Cari tahu perusahaan top yang paling banyak merekrut alumni kampus impianmu.</p>
+      <div class="kerja-source-note">📊 Berdasarkan data LinkedIn: Top 5 universitas asal karyawan di 73 perusahaan besar Indonesia.</div>
       <div class="kerja-stats-row">
         <div class="kstat"><span class="kstat-num">73</span><span class="kstat-lbl">Perusahaan Besar</span></div>
         <div class="kstat"><span class="kstat-num">12</span><span class="kstat-lbl">Sektor Industri</span></div>
@@ -1467,6 +1467,12 @@ industries.forEach(ind => {
 
 // Kerja state
 let kActiveIndustry = '', kActiveUniv = '', kFiltered = [...EMP_COMPANIES];
+
+function kerjaSearch() {
+  const val = document.getElementById('kerja-inp-univ').value.trim();
+  kActiveUniv = val;
+  kerjaRender();
+}
 
 function kerjaRender() {
   const grid = document.getElementById('kgrid');
